@@ -18,6 +18,13 @@
 └─────────────────┘    └──────────────────┘    └─────────────────┘
 
 Flow: Plan → Code → Build → Test → Deploy → Monitor → Repeat
+| Feature | Azure Boards               | Azure Dashboard        |
+| ------- | -------------------------- | ---------------------- |
+| Purpose | Work management            | Project overview       |
+| Focus   | Tasks & execution          | Monitoring & reporting |
+| Users   | Devs, QA, PM               | Managers, stakeholders |
+| Data    | Work items (bugs, stories) | Charts & metrics       |
+| Type    | Operational tool           | Visualization tool     |
 
 
 Do you know chinese?
