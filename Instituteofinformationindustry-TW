@@ -1,3 +1,24 @@
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Azure Boards  │    │   Azure Repos    │    │ Azure Pipelines │
+│                 │    │                  │    │                 │
+│ • Plan features │────│ • Store code     │────│ • Build apps    │
+│ • Track bugs    │    │ • Code reviews   │    │ • Run tests     │
+│ • Manage sprints│    │ • Branch policies│    │ • Deploy code   │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+         │                       │                       │
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│ Azure Test Plans│    │ Azure Artifacts  │    │   Dashboards    │
+│                 │    │                  │    │                 │
+│ • Test planning │    │ • Package feeds  │    │ • Project views │
+│ • Manual testing│◄───│ • Version control│───►│ • Team metrics  │
+│ • Test reporting│    │ • Dependency mgmt│    │ • Build status  │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+
+Flow: Plan → Code → Build → Test → Deploy → Monitor → Repeat
+
+
 Do you know chinese?
 At the moment, I am not fluent in Chinese. But I do understand that working in Taiwan, basic Chinese communication is important, 
 so I am planning to learn it step by step alongside my work. 
