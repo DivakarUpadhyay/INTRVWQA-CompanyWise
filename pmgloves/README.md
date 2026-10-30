@@ -14,3 +14,8 @@ HR: Martin, 02-66066688 #537 (via 104). Applied 2026-10-16. Expected salary give
 | 06-Third-Party-Tools-Guide.md | BorG BPM, Automation 360, Power BI, n8n, Dify, Git: what, why, how, demo project, interview script |
 
 **Status (2026-10-30):** HR forwarded your profile to the supervisor. Waiting for an interview invite. Follow up on 2026-11-06 if there's no reply.
+
+## Demo project for the interview
+**Divakar GloveOps**: https://github.com/DivakarUpadhyay/Divakar-GloveOps (local: `D:\Divakar-Apps\Divakar.GloveOps`)
+A sample-request approval portal built on the JD stack: .NET MVC + Dapper + SQL Server stored procedures + jQuery + Git, with a BPM-style approval engine, n8n, Dify, Automation 360 and Power BI guides. 36 automated tests (26 unit/database + 10 Playwright browser tests); screenshots in `docs/screenshots`. Use its README "Demo script" for a 5-minute walkthrough.
+
