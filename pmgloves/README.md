@@ -17,5 +17,5 @@ HR: Martin, 02-66066688 #537 (via 104). Applied 2026-10-16. Expected salary give
 
 ## Demo project for the interview
 **Divakar GloveOps**: https://github.com/DivakarUpadhyay/Divakar-GloveOps (local: `D:\Divakar-Apps\Divakar.GloveOps`)
-A sample-request approval portal built on the JD stack: .NET MVC + Dapper + SQL Server stored procedures + jQuery + Git, with a BPM-style approval engine, n8n, Dify, Automation 360 and Power BI guides. 36 automated tests (26 unit/database + 10 Playwright browser tests); screenshots in `docs/screenshots`. Use its README "Demo script" for a 5-minute walkthrough.
+A sample-request approval portal built on the JD stack: .NET MVC + Dapper + EF Core + SQL Server stored procedures + jQuery + Git, plus EF Core (Admin customers & products with optimistic concurrency), a BPM-style approval engine, and n8n, Dify, Automation 360 and Power BI guides. 48 automated tests (33 unit/database + 15 Playwright browser tests); screenshots in `docs/screenshots`. Use its README "Demo script" for a 5-minute walkthrough.
 
