@@ -6,6 +6,24 @@
 **Pay:** 104 shows NT$40,000+ as the minimum. Title (Engineer or Senior Engineer) and pay depend on experience.
 **Hours:** flexible start 08:30–09:30, finish 18:00–19:00, two days off per week.
 
+## Third-party tools
+- BorG BPM ("Brog BPM" in the posting)
+- Automation 360
+- Power BI
+- n8n
+- Dify
+- Git
+
+## Required technologies
+- C# (generics, inheritance, OOP)
+- .NET Core MVC
+- ASP.NET Web Forms
+- MS SQL Server
+- Stored procedures
+- Dapper
+- ORM (Entity Framework)
+- jQuery
+
 ## What this team really is
 This is an **internal IT / MIS team** at a manufacturer, not a software house. They build tools for the company's own staff: sales, factories, finance and HR across 6 plants (Taiwan, China, Vietnam).
 - **Core job (I):** internal Web MVC systems, front end and back end. Write documentation the team can edit.
