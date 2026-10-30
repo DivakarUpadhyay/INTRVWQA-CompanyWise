@@ -1,0 +1,543 @@
+<title>Sandline Mock Interview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+/* Layout: a Teams-style call bar on top; question "stage" on the left, interview run-sheet on the right; stacks on phones. */
+:root {
+  --bg: #F2F4F7; --surface: #FFFFFF; --sunken: #E9EDF2; --ink: #142030; --muted: #586474; --line: #D7DDE5;
+  --accent: #1F4E79; --accent-soft: #E2EBF4; --on-accent: #FFFFFF;
+  --live: #0B7F62; --warn: #A15C00; --bad: #B42318; --good: #2E7D32;
+  --f-display: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0E141B; --surface: #161F29; --sunken: #111921; --ink: #E5EAF0; --muted: #98A4B3; --line: #283442;
+  --accent: #82B4E6; --accent-soft: #1C2D40; --on-accent: #0E141B;
+  --live: #3CC79F; --warn: #E3A43C; --bad: #F2766B; --good: #74C27A; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0E141B; --surface: #161F29; --sunken: #111921; --ink: #E5EAF0; --muted: #98A4B3; --line: #283442;
+  --accent: #82B4E6; --accent-soft: #1C2D40; --on-accent: #0E141B;
+  --live: #3CC79F; --warn: #E3A43C; --bad: #F2766B; --good: #74C27A; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--f-body); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 16px 48px; display: grid; gap: 16px; }
+
+/* Call bar */
+.callbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; background: var(--surface);
+  border: 1px solid var(--line); border-radius: var(--r); padding: 12px 16px; }
+.who { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.avatar { position: relative; width: 44px; height: 44px; border-radius: 50%; background: var(--accent-soft); color: var(--accent);
+  display: grid; place-items: center; font-weight: 600; flex: none; }
+.avatar::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--live); opacity: 0; }
+.avatar.speaking::after { animation: ring 1.2s ease-out infinite; }
+@keyframes ring { from { opacity: .9; transform: scale(.92); } to { opacity: 0; transform: scale(1.18); } }
+.who b { display: block; font-weight: 600; }
+.who span { color: var(--muted); font-size: 13px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--muted); font-size: 13px; }
+.meta .live { color: var(--live); font-weight: 500; }
+.meta .live::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--live); margin-right: 6px; vertical-align: 1px; }
+.clock { margin-left: auto; font: 500 14px var(--f-mono); font-variant-numeric: tabular-nums; text-align: right; }
+.clock small { display: block; color: var(--muted); font: 12px var(--f-body); }
+.clock .over { color: var(--warn); }
+
+/* Mode tabs */
+.modes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.tab { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 7px 14px; font: 500 14px var(--f-body); cursor: pointer; }
+.tab[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+select { font: 14px var(--f-body); padding: 7px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+
+.main { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; align-items: start; }
+@media (max-width: 860px) { .main { grid-template-columns: minmax(0, 1fr); } }
+
+/* Stage */
+.stage { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 22px; display: grid; gap: 18px; min-width: 0; }
+.qhead { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; color: var(--muted); font-size: 13px; }
+.cat { text-transform: uppercase; letter-spacing: .08em; font-weight: 600; color: var(--accent); font-size: 12px; }
+.question { font: 600 clamp(21px, 2.6vw, 27px)/1.3 var(--f-display); text-wrap: balance; margin: 0; }
+.question::before { content: "Gloria: "; color: var(--muted); font-weight: 400; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 9px 14px; font: 500 14px var(--f-body); cursor: pointer; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn:disabled { opacity: .55; cursor: default; }
+.btn:focus-visible, .tab:focus-visible, textarea:focus-visible, select:focus-visible, .qitem:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.timer { font: 500 22px var(--f-mono); font-variant-numeric: tabular-nums; min-width: 6ch; }
+.timer small { font: 13px var(--f-body); color: var(--muted); margin-left: 6px; }
+.timer.over { color: var(--warn); }
+.bar { height: 6px; border-radius: 3px; background: var(--sunken); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--live); transition: width .3s; }
+.bar.over i { background: var(--warn); }
+.hint { color: var(--muted); font-size: 13px; margin: 0; }
+label.lbl { font-weight: 600; font-size: 14px; display: block; margin-bottom: 6px; }
+textarea { width: 100%; min-height: 130px; resize: vertical; font: 15px/1.5 var(--f-body); padding: 12px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--sunken); color: var(--ink); }
+
+details.model { border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; background: var(--sunken); }
+details.model summary { cursor: pointer; font-weight: 600; }
+details.model ul { margin: 10px 0 4px; padding-left: 20px; }
+details.model li + li { margin-top: 4px; }
+
+.rate { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.rate span { font-size: 13px; color: var(--muted); margin-right: 4px; }
+.chip { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 6px 12px; font: 500 13px var(--f-body); cursor: pointer; }
+.chip[data-v="good"][aria-pressed="true"] { background: var(--good); border-color: var(--good); color: var(--on-accent); }
+.chip[data-v="ok"][aria-pressed="true"] { background: var(--warn); border-color: var(--warn); color: var(--on-accent); }
+.chip[data-v="work"][aria-pressed="true"] { background: var(--bad); border-color: var(--bad); color: var(--on-accent); }
+
+.feedback { border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 12px; }
+.fb-score { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.fb-score b { font: 600 30px var(--f-display); }
+.fb-score span { color: var(--muted); }
+.fb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 560px) { .fb-grid { grid-template-columns: 1fr; } }
+.fb-grid h4, .feedback h4, .report h4 { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.fb-grid ul { margin: 0; padding-left: 18px; }
+.better { background: var(--accent-soft); border-radius: 8px; padding: 12px 14px; font-family: var(--f-display); font-size: 16px; }
+.followup { border-left: 3px solid var(--accent); padding: 4px 0 4px 12px; }
+.status { font-size: 14px; color: var(--muted); white-space: pre-wrap; }
+.nav { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 16px; }
+
+/* Run sheet */
+aside { display: grid; gap: 16px; min-width: 0; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: grid; gap: 12px; min-width: 0; }
+.card h3 { margin: 0; font: 600 16px var(--f-body); }
+.tally { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
+.tally div { background: var(--sunken); border-radius: 8px; padding: 8px 4px; }
+.tally b { display: block; font: 600 20px var(--f-mono); font-variant-numeric: tabular-nums; }
+.tally span { font-size: 12px; color: var(--muted); }
+.tally .g b { color: var(--good); } .tally .o b { color: var(--warn); } .tally .w b { color: var(--bad); }
+.qlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; max-height: 460px; overflow-y: auto; }
+.qitem { display: grid; grid-template-columns: 26px minmax(0, 1fr) 10px; gap: 8px; align-items: center; padding: 7px 8px; border-radius: 6px; cursor: pointer; font-size: 13.5px; }
+.qitem:hover { background: var(--sunken); }
+.qitem[aria-current="true"] { background: var(--accent-soft); }
+.qitem .n { font: 12px var(--f-mono); color: var(--muted); }
+.qitem .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--line); }
+.dot.good { background: var(--good); border-color: var(--good); } .dot.ok { background: var(--warn); border-color: var(--warn); } .dot.work { background: var(--bad); border-color: var(--bad); }
+.dot.answered { border-color: var(--accent); }
+.report ul { margin: 0; padding-left: 18px; }
+.report p { margin: 0; }
+.danger { color: var(--bad); }
+.small { font-size: 13px; color: var(--muted); margin: 0; }
+@media (prefers-reduced-motion: reduce) { .avatar.speaking::after { animation: none; opacity: .8; } .bar i { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header class="callbar">
+    <div class="who">
+      <div class="avatar" id="avatar" aria-hidden="true">GL</div>
+      <div><b>Gloria Liu</b><span>Operations Manager · Sandline Global</span></div>
+    </div>
+    <div class="meta">
+      <span class="live">Teams · audio only</span>
+      <span>Senior Backend Data Engineer · Round 1</span>
+      <span>Mon 12 Oct · 2:00 PM Taipei</span>
+    </div>
+    <div class="clock" id="clock">00:00 / 45:00<small>interview time used</small></div>
+  </header>
+
+  <div class="modes" role="group" aria-label="Practice mode">
+    <button class="tab" id="mFull" aria-pressed="true">Full mock · 19 questions</button>
+    <button class="tab" id="mDrill" aria-pressed="false">Question bank · drill</button>
+    <select id="catSel" aria-label="Category" hidden></select>
+  </div>
+
+  <div class="main">
+    <section class="stage" aria-live="polite">
+      <div class="qhead"><span class="cat" id="qCat"></span><span id="qPos"></span><span id="qTarget"></span></div>
+      <h1 class="question" id="qText"></h1>
+      <div class="controls">
+        <button class="btn" id="speakBtn">Hear Gloria ask</button>
+        <button class="btn primary" id="timerBtn">Start answering</button>
+        <div class="timer" id="timer">0:00<small>/ 1:30</small></div>
+      </div>
+      <div class="bar" id="bar"><i></i></div>
+      <p class="hint">Answer out loud, as on the real call. Then type the main points you said and ask for feedback.</p>
+
+      <div>
+        <label class="lbl" for="answer">What you said</label>
+        <textarea id="answer" placeholder="Type your answer or its key points here…"></textarea>
+      </div>
+
+      <div class="controls">
+        <button class="btn primary" id="fbBtn">Get Gloria's feedback</button>
+        <button class="btn" id="stopBtn" hidden>Stop</button>
+        <span class="status" id="fbStatus"></span>
+      </div>
+
+      <details class="model" id="model"><summary>Show what a strong answer covers</summary><ul id="modelList"></ul></details>
+
+      <div class="rate" role="group" aria-label="Rate yourself">
+        <span>Rate yourself:</span>
+        <button class="chip" data-v="good" aria-pressed="false">Nailed it</button>
+        <button class="chip" data-v="ok" aria-pressed="false">Okay</button>
+        <button class="chip" data-v="work" aria-pressed="false">Needs work</button>
+      </div>
+
+      <div class="feedback" id="feedback" hidden></div>
+
+      <div class="nav">
+        <button class="btn" id="prevBtn">← Previous</button>
+        <button class="btn primary" id="nextBtn">Next question →</button>
+      </div>
+    </section>
+
+    <aside>
+      <div class="card">
+        <h3>Your progress</h3>
+        <div class="tally">
+          <div class="g"><b id="tGood">0</b><span>Nailed</span></div>
+          <div class="o"><b id="tOk">0</b><span>Okay</span></div>
+          <div class="w"><b id="tWork">0</b><span>Needs work</span></div>
+        </div>
+        <ul class="qlist" id="qlist"></ul>
+      </div>
+
+      <div class="card report" id="reportCard">
+        <h3>Overall readiness</h3>
+        <p class="small" id="reportHint">Answer at least 3 questions, then get an overall review from Gloria's point of view.</p>
+        <button class="btn primary" id="reportBtn" disabled>Review all my answers</button>
+        <div id="report"></div>
+      </div>
+
+      <div class="card">
+        <h3>Start over</h3>
+        <p class="small">Clears answers, ratings, feedback and the clock in this browser.</p>
+        <button class="btn" id="resetBtn">Reset practice</button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+// ---------- Interview content ----------
+const PROFILE = `CANDIDATE: Divakar R. Upadhyay, New Taipei City, Taiwan Employment Gold Card (no sponsorship). M.Sc. Computer Science (Univ. of Mumbai, 2014). 11 years total (Feb 2015-now), 8 at senior level. Languages: English (professional), Hindi, Marathi - no Mandarin.
+- AMG (Mar 2025-[month] 2026; the company closed its operations after regulatory/banking compliance issues; the candidate was an engineer, not involved in business decisions; now available immediately; last salary TWD 70,000/month): .NET 8 backend, Clean Architecture, Dapper, MSSQL, repository/service layer; compliance flows (Sumsub KYC, 48-hour withdrawal queue, on-chain gates); append-only audit triggers in MSSQL; also Next.js and Solidity.
+- Skywind on-site at Acer Taiwan (Mar 2022-Feb 2025): Acer Contact Service System for repair centres/partners; TNT & FedEx EDI (multiple document formats); DHL payment gateway; i18n localisation rollout; SSRS reporting suite; automated SSIS pipelines; daily scrums with Acer PMs; owned requirement analysis and IT/UAT release.
+- Health Assure (Apr-Nov 2021, Mumbai): led 5 devs; Apollo Pharmacy & Doc24x7 APIs; REST APIs for mobile.
+- Tecogis (2018-2021): diamond grading for IGI/GIA; Rapaport API; global data sync; generic Crystal Reports loader.
+- Fulcro World (2017-18): Bajaj FinServ, Salesforce API, AWS S3. Dotcom Service (2015-17): layered apps, PayU/Stripe/HDFC/Atom.
+Skills: C#, VB.NET, ASP.NET MVC/Core, Web API, EF, Dapper, LINQ, T-SQL, stored procedures, ADO.NET, SSIS, SSRS, Azure DevOps, GitHub Actions, Docker. Not on resume: PowerShell, Relativity, Nuix, Python.`;
+
+const JOB = `JOB: Senior Backend Data Engineer, Sandline Global (eDiscovery & litigation support; mission "We obsess over quality, so you don't have to"; own ETL tech ModernETL; uses RelativityOne, Everlaw, Nuix). 100% individual contributor, fully remote in Taiwan, monthly in-person events in Taipei, some evening/weekend work and travel. Needs: ETL for high-volume ingestion, metadata/text extraction, exception resolution; code-level debugging of corruptions and encoding errors; C#/.NET (required), MS SQL (querying, DBA, tuning), PowerShell; eDiscovery API integrations; SQL/text QC for 100% precision; Mandarin + English fluent. Salary TWD 140k-180k+/month.`;
+
+const QS = [
+  { id: "open", cat: "Opening", t: 30, q: "Hi Divakar, can you hear me okay? Thanks for joining today. How is your day going?",
+    p: ["Short, warm, confident: \"Yes, I can hear you clearly. Thank you for the time today, Gloria.\"", "One friendly line about your day, then stop", "Speak a bit slower than normal – audio only"] },
+  { id: "intro", cat: "About you", t: 90, q: "To start, could you tell me a little about yourself?",
+    p: ["11 years total, 8 senior, C#/.NET + SQL Server", "Acer: FedEx/TNT EDI in multiple formats, SSIS pipelines, SSRS suite, IT/UAT owner", "Most recently AMG (until [month] 2026): .NET 8 + MSSQL backend with append-only audit triggers; company has since closed", "Available to start immediately", "13+ external integrations, each with messy data", "Why this role: hands-on, C# + SQL, precision. Gold Card – no sponsorship", "Under 90 seconds, then stop"] },
+  { id: "whysand", cat: "eDiscovery & Sandline", t: 60, q: "Why did you apply to Sandline, and why this role?",
+    p: ["The work: complex data problems where precision matters", "The stack: C#, SQL Server, ETL – your strongest skills", "The culture: \"We obsess over quality\" / \"We own the outcome\"", "Mention ModernETL from their website"] },
+  { id: "acer", cat: "Experience", t: 120, q: "Walk me through your work at Acer. What did you own?",
+    p: ["Acer Contact Service System – repair centres & partners across Taiwan", "TNT & FedEx EDI (multiple formats), DHL payment gateway", "Automated SSIS pipelines + end-to-end SSRS reporting", "Full i18n localisation rollout", "Daily scrums with Acer PMs; owned requirements and IT/UAT release", "Add one number: formats, records per day, or time saved"] },
+  { id: "edi", cat: "Experience", t: 120, q: "Tell me more about the FedEx and TNT EDI integration. What was the hardest part?",
+    p: ["STAR format: situation, task, action, result", "Different document formats per carrier → one common data model", "Validation of required fields, dates, codes", "Rejected records logged, never dropped silently", "Tested every format in IT/UAT with Acer PMs", "Result with a number; link to eDiscovery processing (many formats in, clean data out)"] },
+  { id: "ssis", cat: "Technical", t: 120, q: "How did you design your SSIS pipelines? And what happens to bad rows?",
+    p: ["Extract → staging → validate → transform → load", "Error outputs redirect bad rows to an error table with a reason", "Scheduled with SQL Agent; logging per step", "Idempotent / safe to re-run", "Reconcile: input = loaded + rejected"] },
+  { id: "ediscovery", cat: "eDiscovery & Sandline", t: 90, q: "What do you know about eDiscovery and what our team does day to day?",
+    p: ["Finding & producing electronic evidence for legal cases", "EDRM: identify, preserve, collect, process, review, produce", "Processing: expand containers (PST/ZIP), extract text + metadata, hash dedup, de-NIST, email threading, exceptions", "Load files (DAT/OPT), Bates numbers", "Bridge: processing is the ETL work you already do"] },
+  { id: "relativity", cat: "Technical", t: 60, q: "Have you worked with Relativity or Nuix?",
+    p: ["Honest: not hands-on yet", "You know how processing works (ingest, extract, dedup, exceptions, load files)", "Relativity has REST APIs – you've integrated 13+ APIs", "You ramp up fast on new tools – examples: Web3 stack at AMG, new domains every job"] },
+  { id: "slowsql", cat: "Technical", t: 90, q: "Suppose a query on a very large table suddenly becomes slow. How would you find and fix the problem?",
+    p: ["Find it: Query Store / DMVs", "Read the actual execution plan: scans, key lookups, estimated vs actual rows", "Fix: index (covering / INCLUDE), SARGable rewrite, no functions on columns, no implicit conversions", "Update statistics; check parameter sniffing", "Measure before/after; give your own example"] },
+  { id: "encoding", cat: "Technical", t: 90, q: "A client dataset arrives and the Chinese text shows as garbled characters. How would you handle it?",
+    p: ["Garbled text = read with the wrong encoding (mojibake)", "Detect source: UTF-8, UTF-16, Big5 (common in Taiwan)", "Read with the right encoding in C# (register CodePagesEncodingProvider for Big5)", "Store in NVARCHAR, not VARCHAR", "Add a check that flags replacement characters; never pass silently", "Link to your Acer i18n rollout"] },
+  { id: "alone", cat: "Experience", t: 120, q: "Tell me about a production problem you had to solve on your own, without clear instructions.",
+    p: ["STAR format", "Reproduce → logs & stack trace → check input data → isolate record or code path", "Fix the root cause, add a check so it cannot repeat", "Document the root cause", "Result with time to fix / impact"] },
+  { id: "mandarin", cat: "Tough", t: 60, q: "The job description mentions fluent Mandarin. What is your level of Mandarin?",
+    p: ["Honest and calm: not fluent; English, Hindi, Marathi", "4+ years working in Taiwan in English, incl. 3 years on-site at Acer with Taiwanese PMs", "Global legal clients, English documentation and RCA reports", "Only say you are learning Mandarin if true", "One answer, no over-apologising"] },
+  { id: "leaving", cat: "Tough", t: 60, q: "Your resume says you're at AMG now. Are you still there, and why are you looking?",
+    p: ["Calm and early: \"AMG closed its operations in [month] 2026, so my role ended.\"", "Reason is the company closure, not your performance", "One line on what you built there (.NET 8 + SQL Server backend, compliance and audit features)", "Turn to the future: a stable, quality-focused company and backend data work", "\"I am available to start immediately.\""] },
+  { id: "whyclosed", cat: "Tough", t: 45, q: "May I ask why the company closed?",
+    p: ["Only answer because she asked – never volunteer it", "Neutral words: \"regulatory and banking compliance issues\"", "You were an engineer, not involved in business decisions", "No details – \"not mine to share\"", "Never say violation, illegal, fraud or scam; no blame"] },
+  { id: "lastsalary", cat: "Logistics", t: 45, q: "What was your salary at your last company?",
+    p: ["Honest: TWD 70,000 per month – they may ask for proof", "Don't add the 4,500 pension: it is the statutory 6% employer contribution, not salary", "Context: a start-up package, below market for your experience", "Bring it back to your expectation: around 150,000, within their range"] },
+  { id: "logistics", cat: "Logistics", t: 45, q: "This role is remote, but we meet in person in Taipei every month, and sometimes need evening or weekend support and travel. Is that okay for you?",
+    p: ["Clear yes", "Lives in New Taipei – Taipei is easy", "Understands legal deadlines are urgent", "Open to travel"] },
+  { id: "salary", cat: "Logistics", t: 45, q: "What are your salary expectations, and when could you start?",
+    p: ["\"Around TWD 150,000 a month, within your published range\"", "Based on 11 years and the scope of the role; flexible on the exact number", "Don't ask for 180,000 – risky with the Mandarin and eDiscovery gaps", "\"I can start immediately\" – they want someone within a month", "Gold Card – no sponsorship needed"] },
+  { id: "yourq", cat: "Closing", t: 120, q: "Those are my questions. Do you have any questions for me?",
+    p: ["Always ask 2–4", "What does a typical week look like in this role?", "What data problems does the team face most?", "How does this role work with ModernETL?", "What does success look like in the first 3 months?", "What are the next stages and timeline?"] },
+  { id: "close", cat: "Closing", t: 45, q: "Great, thank you Divakar. We'll be in touch about next steps. Anything else you'd like to add?",
+    p: ["Thank Gloria", "One line: role combines what you do best (C#, SQL, data problems) with a quality-focused company", "Say you'd be glad to move forward", "Confirm next steps if not answered"] },
+
+  // Question bank only
+  { id: "strengths", cat: "About you", t: 60, q: "What would you say are your main strengths?",
+    p: ["Strong C# and SQL Server", "Patience and depth investigating messy data", "Ownership from requirements to release", "One quick example each"] },
+  { id: "weakness", cat: "About you", t: 60, q: "And what is one area you are working to improve?",
+    p: ["Real but safe weakness, e.g. over-polishing", "What you now do about it", "Or: PowerShell / eDiscovery tools, with your learning plan"] },
+  { id: "fullstack", cat: "Tough", t: 60, q: "Your resume looks quite full-stack, with frontend and Web3. Why a backend data role now?",
+    p: ["Full-stack because you owned features end to end", "Your core in every job: backend, SQL Server, SSIS, integrations", "This role lets you focus on your strongest area"] },
+  { id: "gap", cat: "Tough", t: 45, q: "I see a gap between November 2021 and March 2022. What happened there?",
+    p: ["One honest sentence with the real reason, e.g. [relocation from Mumbai to Taiwan]", "Then move on to joining Acer"] },
+  { id: "powershell", cat: "Technical", t: 60, q: "How comfortable are you with PowerShell?",
+    p: ["Be honest about your real usage", "PowerShell runs on .NET – same objects as C#", "Know: Get-ChildItem, Get-FileHash, Import-Csv, Select-String, Invoke-Sqlcmd, Invoke-RestMethod", "Example: find duplicate files by hash"] },
+  { id: "accuracy", cat: "Technical", t: 90, q: "Our deliverables have to be 100% accurate before they go to the review platform. How do you make sure of that?",
+    p: ["Automated validation scripts", "Row counts source vs target; hash comparisons", "Required-field checks; sample spot checks", "Nothing moves on until numbers match – like your UAT gate at Acer", "A dropped row could be missing evidence"] },
+  { id: "audit", cat: "Experience", t: 90, q: "You mention append-only audit triggers at AMG. How did that work, and why did it matter?",
+    p: ["Triggers capture old value, new value, user, time into audit tables", "Audit tables block UPDATE/DELETE – append-only", "Needed for compliance in an investment platform", "Same idea as chain of custody in eDiscovery"] },
+  { id: "bigload", cat: "Technical", t: 90, q: "How would you load hundreds of millions of rows into SQL Server efficiently?",
+    p: ["SqlBulkCopy / BULK INSERT / bcp – not row by row", "Batches; staging table first; validate then move", "Disable non-clustered indexes during the load, rebuild after", "TABLOCK + minimal logging where possible", "Partition very large tables"] },
+  { id: "csharpvsssis", cat: "Technical", t: 60, q: "When would you use SSIS, and when would you write a custom C# tool instead?",
+    p: ["SSIS: standard repeatable flows, quick to build", "C#: complex or unusual formats, APIs, custom logic", "Example: multi-format EDI parsing"] },
+  { id: "ic", cat: "Tough", t: 45, q: "This is a 100% individual contributor role. You led a team before – is that okay for you?",
+    p: ["Yes, clearly", "You led a team of 5 once and learned from it", "You enjoy hands-on technical work most"] },
+  { id: "nontech", cat: "Experience", t: 60, q: "How do you explain a technical problem to a non-technical project manager or client?",
+    p: ["Impact first, then cause in simple words, then fix and timeline", "Example sentence: \"200 documents were not loaded because of a file format problem; fixed, ready by 5 PM\"", "Daily scrums with Acer PMs"] },
+  { id: "remote", cat: "Logistics", t: 60, q: "How do you stay effective when working fully remote?",
+    p: ["Clear written updates; reachable on Teams", "Document decisions", "Experience with Teams, Slack, Azure Boards, Jira"] },
+  { id: "future", cat: "About you", t: 45, q: "Where do you see yourself in three to five years?",
+    p: ["Senior technical expert in legal data processing", "The person trusted with the hardest data problems", "Possibly Relativity certified"] },
+];
+const FULL = ["open", "intro", "whysand", "acer", "edi", "ssis", "ediscovery", "relativity", "slowsql", "encoding", "alone", "mandarin", "leaving", "whyclosed", "logistics", "salary", "lastsalary", "yourq", "close"];
+const byId = Object.fromEntries(QS.map(q => [q.id, q]));
+const CATS = ["All", ...new Set(QS.map(q => q.cat))];
+
+// ---------- State (per-viewer, browser only) ----------
+const KEY = "sandline-mock-v1";
+const blank = () => ({ mode: "full", cat: "All", idx: 0, answers: {}, rating: {}, secs: {}, fb: {}, session: 0, report: null });
+let S = blank();
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+
+const $ = id => document.getElementById(id);
+const fmt = s => Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+const fmt2 = s => String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
+
+function list() { return S.mode === "full" ? FULL.map(id => byId[id]) : QS.filter(q => S.cat === "All" || q.cat === S.cat); }
+function cur() { const L = list(); if (S.idx >= L.length) S.idx = 0; return L[S.idx]; }
+
+// ---------- Timer ----------
+let tick = null;
+function stopTimer() { if (tick) { clearInterval(tick); tick = null; } $("timerBtn").textContent = "Start answering"; }
+function startTimer() {
+  stopTimer();
+  const q = cur();
+  $("timerBtn").textContent = "Stop timer";
+  tick = setInterval(() => {
+    S.secs[q.id] = (S.secs[q.id] || 0) + 1; S.session++;
+    drawTimer(); drawClock();
+    if (S.session % 5 === 0) save();
+  }, 1000);
+}
+function drawTimer() {
+  const q = cur(), s = S.secs[q.id] || 0, over = s > q.t;
+  $("timer").innerHTML = fmt(s) + "<small>/ " + fmt(q.t) + "</small>";
+  $("timer").classList.toggle("over", over);
+  $("bar").classList.toggle("over", over);
+  $("bar").firstElementChild.style.width = Math.min(100, s / q.t * 100) + "%";
+}
+function drawClock() {
+  const over = S.session > 2700;
+  $("clock").innerHTML = '<span class="' + (over ? "over" : "") + '">' + fmt2(S.session) + "</span> / 45:00<small>interview time used</small>";
+}
+
+// ---------- Speech ----------
+const synth = window.speechSynthesis;
+let voice = null;
+function pickVoice() {
+  try { const vs = synth.getVoices().filter(v => /^en/i.test(v.lang)); voice = vs.find(v => /en-US/i.test(v.lang)) || vs[0] || null; } catch (e) {}
+}
+if (synth) { pickVoice(); try { synth.onvoiceschanged = pickVoice; } catch (e) {} } else { $("speakBtn").hidden = true; }
+function speak() {
+  try {
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(cur().q);
+    if (voice) u.voice = voice;
+    u.rate = 0.95;
+    u.onstart = () => $("avatar").classList.add("speaking");
+    u.onend = u.onerror = () => $("avatar").classList.remove("speaking");
+    synth.speak(u);
+  } catch (e) { $("speakBtn").hidden = true; }
+}
+
+// ---------- Render ----------
+function render() {
+  const L = list(), q = cur();
+  $("mFull").setAttribute("aria-pressed", S.mode === "full");
+  $("mDrill").setAttribute("aria-pressed", S.mode === "drill");
+  $("catSel").hidden = S.mode !== "drill";
+  $("qCat").textContent = q.cat;
+  $("qPos").textContent = "Question " + (S.idx + 1) + " of " + L.length;
+  $("qTarget").textContent = "Aim for about " + (q.t >= 60 ? (q.t / 60 === 1 ? "1 minute" : (q.t / 60) + " minutes") : q.t + " seconds");
+  $("qText").textContent = q.q;
+  $("answer").value = S.answers[q.id] || "";
+  $("modelList").replaceChildren(...q.p.map(t => { const li = document.createElement("li"); li.textContent = t; return li; }));
+  $("model").open = false;
+  document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", S.rating[q.id] === c.dataset.v));
+  $("prevBtn").disabled = S.idx === 0;
+  $("nextBtn").textContent = S.idx === L.length - 1 ? "Back to first question" : "Next question →";
+  $("fbStatus").textContent = "";
+  drawFeedback(); drawTimer(); drawClock(); drawList(); drawTally(); drawReport();
+}
+function drawList() {
+  const L = list();
+  $("qlist").replaceChildren(...L.map((q, i) => {
+    const li = document.createElement("li");
+    li.className = "qitem"; li.tabIndex = 0;
+    li.setAttribute("aria-current", i === S.idx);
+    const r = S.rating[q.id];
+    li.innerHTML = '<span class="n">' + String(i + 1).padStart(2, "0") + '</span><span class="t"></span><span class="dot ' + (r || (S.answers[q.id] ? "answered" : "")) + '"></span>';
+    li.querySelector(".t").textContent = q.q;
+    li.title = q.q;
+    const go = () => { stopTimer(); S.idx = i; save(); render(); };
+    li.onclick = go;
+    li.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } };
+    return li;
+  }));
+}
+function drawTally() {
+  const v = Object.values(S.rating);
+  $("tGood").textContent = v.filter(x => x === "good").length;
+  $("tOk").textContent = v.filter(x => x === "ok").length;
+  $("tWork").textContent = v.filter(x => x === "work").length;
+  const n = Object.values(S.answers).filter(a => a && a.trim()).length;
+  $("reportBtn").disabled = n < 3 || !sampleFn;
+}
+function el(tag, text, cls) { const e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; }
+function ul(items) { const u = el("ul"); (items || []).forEach(t => u.append(el("li", String(t)))); return u; }
+function drawFeedback() {
+  const box = $("feedback"), f = S.fb[cur().id];
+  if (!f) { box.hidden = true; box.replaceChildren(); return; }
+  box.hidden = false;
+  const score = el("div", null, "fb-score");
+  score.append(el("b", (Number(f.score) || "–") + " / 5"), el("span", f.verdict || ""));
+  const grid = el("div", null, "fb-grid");
+  const a = el("div"); a.append(el("h4", "What worked"), ul(f.strengths));
+  const b = el("div"); b.append(el("h4", "Improve"), ul(f.improve));
+  grid.append(a, b);
+  const parts = [score, grid];
+  if (f.stronger_answer) { const d = el("div"); d.append(el("h4", "A stronger answer"), el("div", f.stronger_answer, "better")); parts.push(d); }
+  if (f.follow_up) { const d = el("div"); d.append(el("h4", "Gloria might ask next"), el("p", f.follow_up, "followup")); parts.push(d); }
+  box.replaceChildren(...parts);
+}
+function drawReport() {
+  const r = S.report, box = $("report");
+  if (!r) { box.replaceChildren(); return; }
+  const parts = [el("p", "Readiness: " + (Number(r.readiness) || "–") + " / 10 — " + (r.summary || ""))];
+  if (r.strengths?.length) parts.push(el("h4", "Strengths"), ul(r.strengths));
+  if (r.fixes?.length) parts.push(el("h4", "Fix before Monday"), ul(r.fixes));
+  if (r.repractice?.length) parts.push(el("h4", "Practise again"), ul(r.repractice));
+  box.replaceChildren(...parts);
+}
+
+// ---------- Claude feedback ----------
+let sampleFn = null, ctl = null;
+const ERR = {
+  not_granted: "AI feedback is turned off for this page. You can still practise with the model answers.",
+  sampling_disabled: "AI feedback isn't available on this account. Use the model answers instead.",
+  rate_limited: "Too many requests right now. Wait a minute, then try again.",
+  session_expired: "Your Claude session expired. Sign in again, then retry.",
+  invalid_json: "The feedback came back in the wrong format. Try again.",
+  refused: "Claude couldn't review this answer. Try rewording it.",
+};
+const errText = e => ERR[e?.code] || "Feedback failed to load. Check your connection and try again.";
+function hideAI(msg) { $("fbBtn").hidden = true; $("reportBtn").hidden = true; $("reportHint").textContent = msg; $("fbStatus").textContent = msg; }
+
+if (window.claude?.use) {
+  $("fbBtn").disabled = true; $("fbStatus").textContent = "Connecting feedback…";
+  window.claude.use("sample").then(s => {
+    sampleFn = s;
+    if (!s) { hideAI("AI feedback works when this page is opened on claude.ai. Use the model answers to check yourself."); return; }
+    $("fbBtn").disabled = false; $("fbStatus").textContent = ""; drawTally();
+  });
+} else {
+  hideAI("AI feedback works when this page is opened on claude.ai. Use the model answers to check yourself.");
+}
+
+async function getFeedback() {
+  const q = cur(), ans = $("answer").value.trim();
+  if (!ans) { $("fbStatus").textContent = "Type what you said first, then ask for feedback."; $("answer").focus(); return; }
+  S.answers[q.id] = ans; save();
+  stopTimer();
+  ctl = new AbortController();
+  $("fbBtn").disabled = true; $("stopBtn").hidden = false; $("fbStatus").textContent = "Gloria is thinking…";
+  const prompt = `You are Gloria Liu, Operations Manager at Sandline Global, running a 45-minute, English-only, audio-only first-round interview. Act as a fair but demanding interviewer and a supportive coach. Judge the candidate's answer to one question.
+
+${JOB}
+
+${PROFILE}
+
+QUESTION: ${q.q}
+WHAT A STRONG ANSWER COVERS:
+- ${q.p.join("\n- ")}
+TARGET SPOKEN LENGTH: about ${q.t} seconds. The candidate timed themselves at ${S.secs[q.id] || 0} seconds (0 = not timed).
+CANDIDATE'S ANSWER (their typed version of what they said):
+"""${ans.slice(0, 4000)}"""
+
+Rules: simple, short English sentences (the candidate is a non-native speaker). Be specific to this answer. In the stronger answer, use only facts from the candidate profile or their answer; write [brackets] for numbers or facts they must fill in. Do not invent experience.
+Reply with only JSON in this shape:
+{"score": 1-5 integer, "verdict": "one sentence", "strengths": ["up to 3 short items"], "improve": ["up to 3 short, specific items"], "stronger_answer": "60-120 words, first person, spoken style", "follow_up": "one realistic follow-up question Gloria might ask next"}`;
+  try {
+    const r = await sampleFn.json(prompt, { signal: ctl.signal, cache: false });
+    S.fb[q.id] = r; save();
+    $("fbStatus").textContent = "";
+    if (cur().id === q.id) drawFeedback();
+  } catch (e) {
+    if (e?.code === "cancelled") $("fbStatus").textContent = "";
+    else if (["not_granted", "sampling_disabled", "not_declared", "capability_disabled", "capability_removed"].includes(e?.code)) hideAI(errText(e));
+    else $("fbStatus").textContent = errText(e);
+  } finally {
+    $("fbBtn").disabled = false; $("stopBtn").hidden = true;
+  }
+}
+
+async function getReport() {
+  const done = QS.filter(q => (S.answers[q.id] || "").trim());
+  if (done.length < 3 || !sampleFn) return;
+  const btn = $("reportBtn");
+  btn.disabled = true; $("report").replaceChildren(el("p", "Reviewing " + done.length + " answers…", "small"));
+  const body = done.map((q, i) => `${i + 1}. Q: ${q.q}\nA: ${S.answers[q.id].slice(0, 1500)}${S.fb[q.id] ? "\n(score " + S.fb[q.id].score + "/5)" : ""}`).join("\n\n");
+  const prompt = `You are Gloria Liu, Operations Manager at Sandline Global. Review this candidate's practice answers for a first-round, English-only, audio-only interview on Monday 12 Oct 2026 at 2 PM.
+
+${JOB}
+
+${PROFILE}
+
+ANSWERS:
+${body.slice(0, 60000)}
+
+Use simple short English. Reply with only JSON:
+{"readiness": 1-10 integer, "summary": "one or two sentences", "strengths": ["up to 3"], "fixes": ["up to 4 concrete things to fix before Monday"], "repractice": ["up to 3 question topics to practise again"]}`;
+  try {
+    S.report = await sampleFn.json(prompt, { cache: false }); save(); drawReport();
+  } catch (e) {
+    $("report").replaceChildren(el("p", errText(e), "small"));
+    if (["not_granted", "sampling_disabled"].includes(e?.code)) hideAI(errText(e));
+  } finally { drawTally(); }
+}
+
+// ---------- Events ----------
+$("mFull").onclick = () => { stopTimer(); S.mode = "full"; S.idx = 0; save(); render(); };
+$("mDrill").onclick = () => { stopTimer(); S.mode = "drill"; S.idx = 0; save(); render(); };
+$("catSel").replaceChildren(...CATS.map(c => { const o = el("option", c === "All" ? "All categories" : c); o.value = c; return o; }));
+$("catSel").value = S.cat;
+$("catSel").onchange = e => { stopTimer(); S.cat = e.target.value; S.idx = 0; save(); render(); };
+$("speakBtn").onclick = speak;
+$("timerBtn").onclick = () => tick ? stopTimer() : startTimer();
+$("answer").oninput = e => { S.answers[cur().id] = e.target.value; save(); drawList(); drawTally(); };
+$("fbBtn").onclick = getFeedback;
+$("stopBtn").onclick = () => ctl?.abort();
+$("reportBtn").onclick = getReport;
+document.querySelectorAll(".chip").forEach(c => c.onclick = () => {
+  const id = cur().id;
+  S.rating[id] = S.rating[id] === c.dataset.v ? undefined : c.dataset.v;
+  if (!S.rating[id]) delete S.rating[id];
+  save(); render();
+});
+$("prevBtn").onclick = () => { stopTimer(); if (S.idx > 0) S.idx--; save(); render(); };
+$("nextBtn").onclick = () => { stopTimer(); S.idx = (S.idx + 1) % list().length; save(); render(); };
+let armed = false;
+$("resetBtn").onclick = () => {
+  if (!armed) { armed = true; $("resetBtn").textContent = "Click again to clear everything"; $("resetBtn").classList.add("danger");
+    setTimeout(() => { armed = false; $("resetBtn").textContent = "Reset practice"; $("resetBtn").classList.remove("danger"); }, 4000); return; }
+  armed = false; stopTimer(); S = blank(); save();
+  $("resetBtn").textContent = "Reset practice"; $("resetBtn").classList.remove("danger"); $("catSel").value = "All"; render();
+};
+
+render();
+</script>

@@ -1,0 +1,14 @@
+D:\Divakar-Apps\JobRequirement-Analysis-companywise\teradyne\04-Coding-Practice\csharp\bin\Debug\net10.0\TeradyneDrills.exe
+D:\Divakar-Apps\JobRequirement-Analysis-companywise\teradyne\04-Coding-Practice\csharp\bin\Debug\net10.0\TeradyneDrills.deps.json
+D:\Divakar-Apps\JobRequirement-Analysis-companywise\teradyne\04-Coding-Practice\csharp\bin\Debug\net10.0\TeradyneDrills.runtimeconfig.json
+D:\Divakar-Apps\JobRequirement-Analysis-companywise\teradyne\04-Coding-Practice\csharp\bin\Debug\net10.0\TeradyneDrills.dll
+D:\Divakar-Apps\JobRequirement-Analysis-companywise\teradyne\04-Coding-Practice\csharp\bin\Debug\net10.0\TeradyneDrills.pdb
+D:\Divakar-Apps\JobRequirement-Analysis-companywise\teradyne\04-Coding-Practice\csharp\obj\Debug\net10.0\TeradyneDrills.GeneratedMSBuildEditorConfig.editorconfig
+D:\Divakar-Apps\JobRequirement-Analysis-companywise\teradyne\04-Coding-Practice\csharp\obj\Debug\net10.0\TeradyneDrills.AssemblyInfoInputs.cache
+D:\Divakar-Apps\JobRequirement-Analysis-companywise\teradyne\04-Coding-Practice\csharp\obj\Debug\net10.0\TeradyneDrills.AssemblyInfo.cs
+D:\Divakar-Apps\JobRequirement-Analysis-companywise\teradyne\04-Coding-Practice\csharp\obj\Debug\net10.0\TeradyneDrills.csproj.CoreCompileInputs.cache
+D:\Divakar-Apps\JobRequirement-Analysis-companywise\teradyne\04-Coding-Practice\csharp\obj\Debug\net10.0\TeradyneDrills.dll
+D:\Divakar-Apps\JobRequirement-Analysis-companywise\teradyne\04-Coding-Practice\csharp\obj\Debug\net10.0\refint\TeradyneDrills.dll
+D:\Divakar-Apps\JobRequirement-Analysis-companywise\teradyne\04-Coding-Practice\csharp\obj\Debug\net10.0\TeradyneDrills.pdb
+D:\Divakar-Apps\JobRequirement-Analysis-companywise\teradyne\04-Coding-Practice\csharp\obj\Debug\net10.0\TeradyneDrills.genruntimeconfig.cache
+D:\Divakar-Apps\JobRequirement-Analysis-companywise\teradyne\04-Coding-Practice\csharp\obj\Debug\net10.0\ref\TeradyneDrills.dll
