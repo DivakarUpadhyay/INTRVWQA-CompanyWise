@@ -1,6 +1,8 @@
 # Third-Party Tools Guide — what, why, how, demo, interview script
 
-Tools in the JD: **BorG BPM · Automation 360 · Power BI · n8n · Dify · Git**
+Tools in the JD (Job Description): **BorG BPM (Business Process Management) · Automation 360 (RPA, Robotic Process Automation) · Power BI (Business Intelligence) · n8n (workflow automation) · Dify (LLM, Large Language Model, app platform) · Git (version control)**
+
+Full forms of every short form are in **00-Abbreviations.md**.
 
 Each section: **What it is → Why companies use it → How it is used → Demo project → How to explain it in the interview.**
 

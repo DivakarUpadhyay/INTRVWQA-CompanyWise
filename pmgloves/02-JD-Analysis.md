@@ -7,22 +7,24 @@
 **Hours:** flexible start 08:30–09:30, finish 18:00–19:00, two days off per week.
 
 ## Third-party tools
-- BorG BPM ("Brog BPM" in the posting)
-- Automation 360
-- Power BI
-- n8n
-- Dify
-- Git
+- BorG BPM (Business Process Management; "Brog BPM" in the posting)
+- Automation 360 (RPA, Robotic Process Automation)
+- Power BI (Business Intelligence)
+- n8n ("nodemation", workflow automation)
+- Dify (LLM, Large Language Model, application platform)
+- Git (version control)
 
 ## Required technologies
-- C# (generics, inheritance, OOP)
-- .NET Core MVC
-- ASP.NET Web Forms
-- MS SQL Server
-- Stored procedures
-- Dapper
-- ORM (Entity Framework)
-- jQuery
+- C# (C Sharp: generics, inheritance, OOP = Object-Oriented Programming)
+- .NET Core MVC (Model–View–Controller)
+- ASP.NET Web Forms (ASP = Active Server Pages)
+- MS SQL Server (Microsoft Structured Query Language Server)
+- Stored procedures (SP)
+- Dapper (micro-ORM)
+- ORM (Object-Relational Mapping, e.g. EF = Entity Framework)
+- jQuery (JavaScript library)
+
+Full forms of every short form: see 00-Abbreviations.md.
 
 ## What this team really is
 This is an **internal IT / MIS team** at a manufacturer, not a software house. They build tools for the company's own staff: sales, factories, finance and HR across 6 plants (Taiwan, China, Vietnam).

@@ -5,6 +5,7 @@ HR: Martin, 02-66066688 #537 (via 104). Applied 2026-10-16. Expected salary give
 
 | File | What's inside |
 |---|---|
+| 00-Abbreviations.md | Full form of every short form used in these files |
 | 01-Company-Overview.md | Company facts, products, names, talking points |
 | 02-JD-Analysis.md | Requirements vs your evidence, gaps, Senior strategy, 30-sec pitch |
 | 03-HR-Discussion-Analysis.md | HR chat review, salary strategy, follow-up and reply templates, expected rounds |
